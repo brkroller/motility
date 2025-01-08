@@ -1,4 +1,4 @@
-#phylogenetic regression of limokinetic motility strategy KEGG orthologs
+#phylogenetic logistic regression for orthologs in limokinetic motility strategy classifier
 #
 #load packages
 require(phylolm)
