@@ -1,4 +1,4 @@
-#logistic regression motility strategies
+#logistic regression for orthologs in limostatic motility strategy classifier
 #
 #load packages
 require(tidyverse)
