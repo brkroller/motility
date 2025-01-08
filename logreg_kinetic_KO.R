@@ -1,4 +1,4 @@
-#phylogenetic regression motility strategies
+#logistic regression for orthologs in limokinetic motility strategy classifier
 #
 #load packages
 require(tidyverse)
