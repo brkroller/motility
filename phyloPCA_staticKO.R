@@ -16,7 +16,7 @@ traitdata_static <- read.csv('dataset_limostatic_KO.csv', header = T)
 #convert traitdata_static kegg data to binary variables
 dim(traitdata_static)
 traitdata_static[15:20,1:10]
-traitdata_static[,c(3:125)] <- ifelse(traitdata_static[,c(3:125)] > 0,1,0)
+traitdata_static[,c(4:124)] <- ifelse(traitdata_static[,c(4:124)] > 0,1,0)
 traitdata_static[15:20,1:10]
 #
 #
@@ -38,7 +38,7 @@ head(traitdata_static)
 #
 #phylogenetic PCA of limostatic data
 #trim traitdata dataset to remove first 2 columns
-traitdata_static_ppca <- traitdata_static[,-c(1,2)]
+traitdata_static_ppca <- traitdata_static[,-c(1:3)]
 pca.limo <- phyl.pca(tree_classifier_26tips, traitdata_static_ppca, method = "BM", mode = "cov")
 #
 #save the data points in PCA axis space
@@ -91,35 +91,35 @@ pca.limo.load.pc1.ord
 #
 #Regress pPCA axis (trait data) vs. classifier outcome
 #make a data frame with each ppca axis and the trait data, since order of data frames was already confirmed above
-pca.limo.points.class <- data.frame(pca.limo.points)
-pca.limo.points.class$class <- traitdata_static$class
+pca.limo.points.pred <- data.frame(pca.limo.points)
+pca.limo.points.pred$predictions <- traitdata_static$predictions
 #phylogenetic logistic regression limokinetic vs. ppc1
-glm1 <- glm(class ~ PC1, data= pca.limo.points.class, family = "binomial")
+glm1 <- glm(predictions ~ PC1, data= pca.limo.points.pred, family = "binomial")
 summary(glm1)
-phyloglm1 <- phyloglm(class ~ PC1, data= pca.limo.points.class, phy= tree_classifier_26tips, method='logistic_IG10', btol = 13)
+phyloglm1 <- phyloglm(predictions ~ PC1, data= pca.limo.points.pred, phy= tree_classifier_26tips, method='logistic_MPLE')
 summary(phyloglm1)
 #phylogenetic logistic regression limokinetic vs. ppc2
-glm2 <- glm(class ~ PC2, data= pca.limo.points.class, family = "binomial")
+glm2 <- glm(predictions ~ PC2, data= pca.limo.points.pred, family = "binomial")
 summary(glm2)
-phyloglm2 <- phyloglm(class ~ PC2, data= pca.limo.points.class, phy= tree_classifier_26tips, method='logistic_MPLE')
+phyloglm2 <- phyloglm(predictions ~ PC2, data= pca.limo.points.pred, phy= tree_classifier_26tips, method='logistic_MPLE')
 summary(phyloglm2)
 #phylogenetic logistic regression limokinetic vs. ppc3
-glm3 <- glm(class ~ PC3, data= pca.limo.points.class, family = "binomial")
+glm3 <- glm(predictions ~ PC3, data= pca.limo.points.pred, family = "binomial")
 summary(glm3)
-phyloglm3 <- phyloglm(class ~ PC3, data= pca.limo.points.class, phy= tree_classifier_26tips, method='logistic_MPLE')
+phyloglm3 <- phyloglm(predictions ~ PC3, data= pca.limo.points.pred, phy= tree_classifier_26tips, method='logistic_MPLE')
 summary(phyloglm3)
 #phylogenetic logistic regression limokinetic vs. ppc4
-glm4 <- glm(class ~ PC4, data= pca.limo.points.class, family = "binomial")
+glm4 <- glm(predictions ~ PC4, data= pca.limo.points.pred, family = "binomial")
 summary(glm4)
-phyloglm4 <- phyloglm(class ~ PC4, data= pca.limo.points.class, phy= tree_classifier_26tips, method='logistic_MPLE')
+phyloglm4 <- phyloglm(predictions ~ PC4, data= pca.limo.points.pred, phy= tree_classifier_26tips, method='logistic_MPLE')
 summary(phyloglm4)
 #phylogenetic logistic regression limokinetic vs. ppc5
-glm5 <- glm(class ~ PC5, data= pca.limo.points.class, family = "binomial")
+glm5 <- glm(predictions ~ PC5, data= pca.limo.points.pred, family = "binomial")
 summary(glm5)
-phyloglm5 <- phyloglm(class ~ PC5, data= pca.limo.points.class, phy= tree_classifier_26tips, method='logistic_MPLE')
+phyloglm5 <- phyloglm(predictions ~ PC5, data= pca.limo.points.pred, phy= tree_classifier_26tips, method='logistic_MPLE')
 summary(phyloglm5)
 #phylogenetic logistic regression limokinetic vs. ppc6
-glm6 <- glm(class ~ PC6, data= pca.limo.points.class, family = "binomial")
+glm6 <- glm(predictions ~ PC6, data= pca.limo.points.pred, family = "binomial")
 summary(glm6)
-phyloglm6 <- phyloglm(class ~ PC6, data= pca.limo.points.class, phy= tree_classifier_26tips, method='logistic_MPLE')
+phyloglm6 <- phyloglm(predictions ~ PC6, data= pca.limo.points.pred, phy= tree_classifier_26tips, method='logistic_MPLE')
 summary(phyloglm6)

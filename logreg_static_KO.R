@@ -1,4 +1,4 @@
-#logistic regression for orthologs in limostatic motility strategy classifier
+#logistic regression motility strategies
 #
 #load packages
 require(tidyverse)
@@ -10,14 +10,14 @@ traitdata_static <- read.csv('dataset_limostatic_KO.csv', header = T)
 #convert traitdata_static kegg data to binary variables
 dim(traitdata_static)
 traitdata_static[15:20,1:10]
-traitdata_static[,c(3:125)] <- ifelse(traitdata_static[,c(3:125)] > 0,1,0)
+traitdata_static[,c(4:124)] <- ifelse(traitdata_static[,c(4:124)] > 0,1,0)
 traitdata_static[15:20,1:10]
 #
 #
 #data prep for regression, convert variable Tipname to rownames
 row.names(traitdata_static) <- traitdata_static$Tipname
-#remove tipname as a variable now that it is a row name
-traitdata_static <- traitdata_static[,-c(1)]
+#remove Tipname and class as variables
+traitdata_static <- traitdata_static[,-c(1,2)]
 #
 #visually inspect data
 traitdata_static[1:5,1:10]
@@ -25,7 +25,7 @@ traitdata_static[1:5,1:10]
 #log reg
 output <- traitdata_static %>%
 	names() %>%
-	paste("class ~", .) %>%
+	paste("predictions ~", .) %>%
 	map_df(~glm(as.formula(.x), data= traitdata_static, family = "binomial") %>% tidy())
 #examine output
 output

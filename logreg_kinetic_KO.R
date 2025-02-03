@@ -1,4 +1,4 @@
-#logistic regression for orthologs in limokinetic motility strategy classifier
+#phylogenetic regression motility strategies
 #
 #load packages
 require(tidyverse)
@@ -9,14 +9,15 @@ require(broom)
 traitdata_kinetic <- read.csv('dataset_limokinetic_KO.csv', header = T)
 #convert traitdata_kinetic kegg data to binary variables
 dim(traitdata_kinetic)
-traitdata_kinetic[,c(3:24)] <- ifelse(traitdata_kinetic[,c(3:24)] > 0,1,0)
+head(traitdata_kinetic)
+traitdata_kinetic[,c(4:25)] <- ifelse(traitdata_kinetic[,c(4:25)] > 0,1,0)
 head(traitdata_kinetic)
 #
 #
 #data prep for regression, convert variable Tipname to rownames
 row.names(traitdata_kinetic) <- traitdata_kinetic$Tipname
-#remove Tipname as a variable 
-traitdata_kinetic <- traitdata_kinetic[,-c(1)]
+#remove Tipname and class as variables 
+traitdata_kinetic <- traitdata_kinetic[,-c(1,2)]
 #
 #visually inspect data
 head(traitdata_kinetic)
@@ -24,7 +25,7 @@ head(traitdata_kinetic)
 #log reg
 output <- traitdata_kinetic %>%
 	names() %>%
-	paste("class ~", .) %>%
+	paste("predictions ~", .) %>%
 	map_df(~glm(as.formula(.x), data= traitdata_kinetic, family = "binomial") %>% tidy())
 #examine output
 output
